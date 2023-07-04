@@ -1,0 +1,190 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model User {
+    id                      String                   @id @default(cuid())
+    name                    String?
+    email                   String                   @unique
+    emailVerified           DateTime?
+    image                   String?                  @db.Text
+    backgroundImage         String?                  @db.Text
+    handle                  String?                  @unique
+    description             String?                  @db.Text
+    videos                  Video[]
+    videoEngagements        VideoEngagement[]
+    playlists               Playlist[]
+    announcements           Announcement[]
+    announcementEngagements AnnouncementEngagement[]
+    followers               FollowEngagement[]       @relation("Followings")
+    followings              FollowEngagement[]       @relation("Followers")
+    comments                Comment[]
+    accounts                Account[]
+    sessions                Session[]
+}
+
+enum EngagementType {
+    LIKE
+    DISLIKE
+    SAVE
+    FOLLOW
+    VIEW
+}
+
+model Video {
+    id               String             @id @default(cuid())
+    title            String             @default("No Name") @db.Text
+    description      String?            @db.Text
+    thumbnailUrl     String             @default("https://via.placeholder.com/150") @db.Text
+    videoUrl         String             @db.Text
+    publish          Boolean            @default(true)
+    userId           String
+    createdAt        DateTime           @default(now())
+    updatedAt        DateTime           @updatedAt
+    user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+    comments         Comment[]
+    playlists        PlaylistHasVideo[]
+    videoEngagements VideoEngagement[]
+
+    @@index([userId])
+}
+
+model VideoEngagement {
+    id             String         @id @default(cuid())
+    userId         String?
+    videoId        String
+    engagementType EngagementType
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
+    user           User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    video          Video          @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([videoId])
+}
+
+model Playlist {
+    id          String             @id @default(cuid())
+    title       String             @db.Text
+    description String?            @db.Text
+    userId      String
+    createdAt   DateTime           @default(now())
+    updatedAt   DateTime           @updatedAt
+    user        User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    videos      PlaylistHasVideo[]
+
+    @@index([userId])
+}
+
+model PlaylistHasVideo {
+    id         String    @id @default(cuid())
+    playlistId String
+    videoId    String
+    playlist   Playlist? @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+    video      Video?    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+    @@index([playlistId, videoId])
+    @@index([playlistId])
+    @@index([videoId])
+}
+
+model Comment {
+    id        String   @id @default(cuid())
+    message   String   @db.Text
+    videoId   String
+    userId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([videoId])
+    @@index([userId])
+}
+
+model Announcement {
+    id                      String                   @id @default(cuid())
+    message                 String                   @db.Text
+    userId                  String
+    createdAt               DateTime                 @default(now())
+    updatedAt               DateTime                 @updatedAt
+    user                    User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    announcementEngagements AnnouncementEngagement[]
+
+    @@index([userId])
+}
+
+model AnnouncementEngagement {
+    userId         String
+    announcementId String
+    engagementType EngagementType
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
+    user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    announcement   Announcement   @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+
+    @@id([userId, announcementId]) // set userId and announcementId as primary key
+    @@index([announcementId])
+    @@index([userId])
+}
+
+model FollowEngagement {
+    followerId     String
+    followingId    String
+    engagementType EngagementType
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
+    following      User           @relation("Followings", fields: [followingId], references: [id], onDelete: Cascade)
+    follower       User           @relation("Followers", fields: [followerId], references: [id], onDelete: Cascade)
+
+    @@id([followerId, followingId])
+    @@index([followerId])
+    @@index([followingId])
+}
+
+// Necessary for Next auth
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+    @@index([userId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+model VerificationToken {
+    identifier String // users email
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}

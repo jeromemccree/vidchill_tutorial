@@ -1,0 +1,283 @@
+[
+  {
+    "id": "1",
+    "title": "Motivational Morning Kickstart",
+    "description": "This playlist is your perfect companion to start the day with a positive attitude. From uplifting music to motivational speeches and fitness routines, these videos will empower you to embrace the day with enthusiasm and energy.",
+    "userId": "185",
+    "createdAt": "2020-01-07T07:30:00Z"
+  },
+  {
+    "id": "2",
+    "title": "Culinary Creations",
+    "description": "A selection of videos for food lovers. Explore various recipes from around the globe, learn new cooking techniques, and get inspired to create your own culinary masterpieces.",
+    "userId": "194",
+    "createdAt": "2020-06-15T18:44:33Z"
+  },
+  {
+    "id": "3",
+    "title": "Tech Today",
+    "description": "Keep up with the latest advancements in technology. From product reviews, to coding tutorials, to discussions about future technologies, this playlist will keep you at the cutting edge.",
+    "userId": "175",
+    "createdAt": "2021-03-14T13:14:15Z"
+  },
+  {
+    "id": "4",
+    "title": "Global Cinema Showcase",
+    "description": "A collection of film reviews, trailers, and interviews from various global cinema. This playlist aims to celebrate the diversity of stories told around the world.",
+    "userId": "197",
+    "createdAt": "2020-09-05T12:30:45Z"
+  },
+  {
+    "id": "5",
+    "title": "Mindful Living",
+    "description": "Videos dedicated to promoting a more mindful, balanced lifestyle. From yoga and meditation tutorials, to discussions on mental health, to tips for sustainable living.",
+    "userId": "200",
+    "createdAt": "2021-06-22T08:00:00Z"
+  },
+  {
+    "id": "6",
+    "title": "World Travel Diaries",
+    "description": "Join us on a journey around the world through these captivating travel vlogs. Experience diverse cultures, beautiful landscapes, and hidden gems in every corner of the globe.",
+    "userId": "180",
+    "createdAt": "2021-02-02T10:22:00Z"
+  },
+  {
+    "id": "7",
+    "title": "Fashion Forward",
+    "description": "Stay up to date with the latest trends in fashion. From runway recaps, to style advice, to DIY fashion projects, this playlist has it all.",
+    "userId": "189",
+    "createdAt": "2020-04-12T16:55:33Z"
+  },
+  {
+    "id": "8",
+    "title": "Science Simplified",
+    "description": "Get lost in the fascinating world of science with these informative and engaging videos. Topics range from space exploration, to biology, to physics and beyond.",
+    "userId": "194",
+    "createdAt": "2021-05-21T19:33:20Z"
+  },
+  {
+    "id": "9",
+    "title": "Artistic Inspiration",
+    "description": "A collection of videos to inspire your inner artist. From painting and sculpting, to music and dance, to writing and photography, this playlist has something for everyone.",
+    "userId": "175",
+    "createdAt": "2021-03-14T13:14:15Z"
+  },
+
+  {
+    "id": "10",
+    "title": "Music for Every Mood",
+    "description": "A versatile collection of music spanning different genres, cultures, and eras. Designed to cater to every mood, be it joy, melancholy, or relaxation.",
+    "userId": "194",
+    "createdAt": "2021-06-11T14:00:00Z"
+  },
+  {
+    "id": "11",
+    "title": "World Literature",
+    "description": "Journey through the rich world of literature with reviews, author interviews, book recommendations and more from around the globe.",
+    "userId": "175",
+    "createdAt": "2021-01-22T16:00:00Z"
+  },
+  {
+    "id": "12",
+    "title": "Fitness and Wellness",
+    "description": "Videos to guide you on a path of physical wellness, including exercise routines, healthy recipes, and motivational talks.",
+    "userId": "186",
+    "createdAt": "2021-04-15T10:00:00Z"
+  },
+  {
+    "id": "13",
+    "title": "Digital Artwork",
+    "description": "Discover the unlimited potential of digital art through tutorials, timelapse creations, and artist showcases.",
+    "userId": "187",
+    "createdAt": "2021-03-05T18:00:00Z"
+  },
+  {
+    "id": "14",
+    "title": "Wildlife Exploration",
+    "description": "Dive into the wild and explore the beauty of nature and various wildlife around the world from the comfort of your home.",
+    "userId": "188",
+    "createdAt": "2021-06-07T12:00:00Z"
+  },
+  {
+    "id": "15",
+    "title": "Mind Bending Puzzles",
+    "description": "Give your brain a workout with this collection of challenging puzzles, riddles, and logic problems.",
+    "userId": "189",
+    "createdAt": "2021-01-13T15:00:00Z"
+  },
+  {
+    "id": "16",
+    "title": "Entrepreneurship and Startups",
+    "description": "Videos to guide and inspire budding entrepreneurs. Includes start-up success stories, business advice, and industry insights.",
+    "userId": "190",
+    "createdAt": "2021-04-30T16:00:00Z"
+  },
+  {
+    "id": "17",
+    "title": "Historical Documentaries",
+    "description": "This playlist takes you through the journey of time, showcasing documentaries from various eras, cultures, and significant historical events.",
+    "userId": "191",
+    "createdAt": "2021-07-01T12:00:00Z"
+  },
+  {
+    "id": "18",
+    "title": "Incredible Engineering",
+    "description": "Explore the fascinating world of engineering with a collection of videos featuring amazing structures, machines, and projects from around the world.",
+    "userId": "192",
+    "createdAt": "2021-02-23T19:00:00Z"
+  },
+  {
+    "id": "19",
+    "title": "Eco-conscious Living",
+    "description": "Educational videos on sustainable living, eco-friendly products, and ways to minimize environmental impact.",
+    "userId": "193",
+    "createdAt": "2021-08-12T11:00:00Z"
+  },
+  {
+    "id": "20",
+    "title": "Language Learning",
+    "description": "Learn new languages or improve your language skills with these lessons, tips, and techniques.",
+    "userId": "194",
+    "createdAt": "2021-03-30T13:00:00Z"
+  },
+  {
+    "id": "21",
+    "title": "Space and Astronomy",
+    "description": "Venture beyond our planet and explore the mysteries of space with videos covering astronomy, space exploration, and astrophysics.",
+    "userId": "195",
+    "createdAt": "2021-09-05T18:00:00Z"
+  },
+  {
+    "id": "22",
+    "title": "Comedy Central",
+    "description": "A light-hearted collection of comedy shows, stand-up performances, and hilarious skits guaranteed to make you laugh.",
+    "userId": "196",
+    "createdAt": "2021-05-10T15:00:00Z"
+  },
+  {
+    "id": "23",
+    "title": "Philosophical Musings",
+    "description": "A collection of videos diving deep into philosophy, exploring human nature, ethics, consciousness, and much more.",
+    "userId": "197",
+    "createdAt": "2021-07-22T12:00:00Z"
+  },
+  {
+    "id": "24",
+    "title": "Sports Highlights",
+    "description": "Catch up on the latest sports highlights, athlete interviews, and analysis from a variety of sports around the world.",
+    "userId": "198",
+    "createdAt": "2021-03-01T11:00:00Z"
+  },
+  {
+    "id": "25",
+    "title": "Cultural Celebrations",
+    "description": "Experience the diversity of the world through videos showcasing cultural celebrations, traditions, and festivals from different countries.",
+    "userId": "199",
+    "createdAt": "2021-06-18T15:00:00Z"
+  },
+  {
+    "id": "26",
+    "title": "Gardening Guide",
+    "description": "Helpful tips and guides on maintaining a garden, growing different plants, and understanding the basics of botany.",
+    "userId": "200",
+    "createdAt": "2021-04-06T14:00:00Z"
+  },
+  {
+    "id": "27",
+    "title": "Automobile Aficionado",
+    "description": "Get your engine running with reviews, overviews, and history of some of the world's best and most interesting vehicles.",
+    "userId": "164",
+    "createdAt": "2021-05-25T13:00:00Z"
+  },
+  {
+    "id": "28",
+    "title": "Science Fiction and Fantasy",
+    "description": "From Star Trek to Game of Thrones, explore the enchanting world of science fiction and fantasy through reviews, theories, and trivia.",
+    "userId": "165",
+    "createdAt": "2021-08-01T16:00:00Z"
+  },
+  {
+    "id": "29",
+    "title": "DIY Crafts and Projects",
+    "description": "Discover the joy of creating with your own hands. This playlist features a variety of DIY crafts and projects that you can do at home.",
+    "userId": "166",
+    "createdAt": "2021-02-09T14:00:00Z"
+  },
+  {
+    "id": "30",
+    "title": "Psychology Insights",
+    "description": "Learn about the fascinating workings of the human mind with videos covering various topics in psychology.",
+    "userId": "167",
+    "createdAt": "2021-07-20T13:00:00Z"
+  },
+  {
+    "id": "31",
+    "title": "Global News",
+    "description": "Stay informed with news updates and deep-dives into important events happening around the globe.",
+    "userId": "168",
+    "createdAt": "2021-05-15T16:00:00Z"
+  },
+  {
+    "id": "32",
+    "title": "Virtual Reality",
+    "description": "Explore the endless possibilities of VR. Includes game reviews, tech discussions, and virtual tours.",
+    "userId": "169",
+    "createdAt": "2021-06-29T17:00:00Z"
+  },
+  {
+    "id": "33",
+    "title": "Pet Care",
+    "description": "Videos focused on taking care of your pets, including tips for training, feeding, and understanding their behavior.",
+    "userId": "170",
+    "createdAt": "2021-04-05T13:00:00Z"
+  },
+  {
+    "id": "34",
+    "title": "Children's Educational Content",
+    "description": "A collection of kid-friendly educational videos on various subjects to make learning fun and engaging.",
+    "userId": "171",
+    "createdAt": "2021-09-02T10:00:00Z"
+  },
+  {
+    "id": "35",
+    "title": "Extreme Sports",
+    "description": "Experience the adrenaline rush of extreme sports with these thrilling videos featuring incredible feats and stunts.",
+    "userId": "172",
+    "createdAt": "2021-03-10T18:00:00Z"
+  },
+  {
+    "id": "36",
+    "title": "Personal Finance",
+    "description": "Guides, tips, and advice on managing your personal finance, including investing, saving, and budgeting.",
+    "userId": "173",
+    "createdAt": "2021-07-15T14:00:00Z"
+  },
+  {
+    "id": "37",
+    "title": "Mysteries of the Universe",
+    "description": "Delve into the fascinating mysteries of the universe, from unsolved puzzles in physics to the enigmatic nature of black holes and dark matter.",
+    "userId": "174",
+    "createdAt": "2021-08-10T15:00:00Z"
+  },
+  {
+    "id": "38",
+    "title": "Soothing Sounds for Sleep",
+    "description": "A collection of videos featuring relaxing sounds and music to help you achieve deep and restful sleep.",
+    "userId": "175",
+    "createdAt": "2021-05-20T20:00:00Z"
+  },
+  {
+    "id": "39",
+    "title": "Innovative Architecture",
+    "description": "Showcasing unique and innovative architecture from around the world, from skyscrapers to eco-friendly designs.",
+    "userId": "176",
+    "createdAt": "2021-06-25T17:00:00Z"
+  },
+  {
+    "id": "40",
+    "title": "Epic Journey of Art",
+    "description": "Journey through the world of art, exploring different styles, periods, artists, and their masterpieces.",
+    "userId": "177",
+    "createdAt": "2021-03-15T11:00:00Z"
+  }
+]
