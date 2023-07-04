@@ -78,8 +78,8 @@ async function processInChunks<T, U>(
 
 async function main() {
   // Delete all records from tables
-  // await prisma.user.deleteMany();
-  // await prisma.video.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.video.deleteMany();
   // await prisma.videoEngagement.deleteMany();
   // await prisma.playlist.deleteMany();
   // await prisma.playlistHasVideo.deleteMany();
@@ -100,68 +100,67 @@ async function main() {
   //     },
   //   })
   // );
-  // await processInChunks(users, 50, (user) =>
-  //   prisma.user.upsert({
-  //     where: { id: user.id },
-  //     update: {
-  //       ...user,
-  //       emailVerified: user.emailVerified
-  //         ? new Date(user.emailVerified)
-  //         : undefined,
-  //     },
-  //     create: {
-  //       ...user,
-  //       emailVerified: user.emailVerified
-  //         ? new Date(user.emailVerified)
-  //         : undefined,
-  //     },
-  //   })
-  // );
-  // await processInChunks(videos, 50, (video) =>
-  //   prisma.video.upsert({
-  //     where: { id: video.id },
-  //     update: {
-  //       ...video,
-  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-  //     },
-  //     create: {
-  //       ...video,
-  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-  //     },
-  //   })
-  // );
-  await processInChunks(videoEngagements, 50, (videoEngagement) =>
-    prisma.videoEngagement.upsert({
-      where: { id: videoEngagement.id.toString() },
+  await processInChunks(users, 50, (user) =>
+    prisma.user.upsert({
+      where: { id: user.id },
       update: {
-        ...videoEngagement,
-        id: videoEngagement.id.toString(),
-        userId: videoEngagement.userId?.toString(),
-        videoId: videoEngagement.videoId.toString(),
-
-        engagementType:
-          EngagementType[
-            videoEngagement.engagementType as keyof typeof EngagementType
-          ],
-        createdAt: videoEngagement.createdAt
-          ? new Date(videoEngagement.createdAt)
+        ...user,
+        emailVerified: user.emailVerified
+          ? new Date(user.emailVerified)
           : undefined,
       },
       create: {
-        ...videoEngagement,
-        id: videoEngagement.id.toString(),
-        userId: videoEngagement.userId?.toString(),
-        videoId: videoEngagement.videoId.toString(),
-        engagementType:
-          EngagementType[
-            videoEngagement.engagementType as keyof typeof EngagementType
-          ],
-        createdAt: videoEngagement.createdAt
-          ? new Date(videoEngagement.createdAt)
+        ...user,
+        emailVerified: user.emailVerified
+          ? new Date(user.emailVerified)
           : undefined,
       },
     })
   );
+  await processInChunks(videos, 50, (video) =>
+    prisma.video.upsert({
+      where: { id: video.id },
+      update: {
+        ...video,
+        createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
+      },
+      create: {
+        ...video,
+        createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
+      },
+    })
+  );
+  // await processInChunks(videoEngagements, 50, (videoEngagement) =>
+  //   prisma.videoEngagement.upsert({
+  //     where: { id: videoEngagement.id.toString() },
+  //     update: {
+  //       ...videoEngagement,
+  //       id: videoEngagement.id.toString(),
+  //       userId: videoEngagement.userId?.toString(),
+  //       videoId: videoEngagement.videoId.toString(),
+  //       engagementType:
+  //         EngagementType[
+  //           videoEngagement.engagementType as keyof typeof EngagementType
+  //         ],
+  //       createdAt: videoEngagement.createdAt
+  //         ? new Date(videoEngagement.createdAt)
+  //         : undefined,
+  //     },
+  //     create: {
+  //       ...videoEngagement,
+  //       id: videoEngagement.id.toString(),
+  //       userId: videoEngagement.userId?.toString(),
+  //       videoId: videoEngagement.videoId.toString(),
+  //       engagementType:
+  //         EngagementType[
+  //           videoEngagement.engagementType as keyof typeof EngagementType
+  //         ],
+  //       createdAt: videoEngagement.createdAt
+  //         ? new Date(videoEngagement.createdAt)
+  //         : undefined,
+  //     },
+  //   })
+  // );
   // await processInChunks(followEngagements, 1, async (followEngagement) => {
   //   // First try to find an existing followEngagement record with the same followerId and followingId
   //   const existingFollowEngagements = await prisma.followEngagement.findMany({

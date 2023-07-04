@@ -108,7 +108,7 @@ const VideoPage: NextPage = () => {
             <DataError />
           ) : (
             <>
-              <div className="w-full sm:px-4  lg:w-3/5 ">
+              <div className="w-full sm:px-4 lg:w-3/5 ">
                 <div className="py-4">
                   <ReactPlayer
                     controls={true}
@@ -168,7 +168,7 @@ const VideoPage: NextPage = () => {
                       />
                     </div>
                     <Description
-                      text={user.description || ""}
+                      text={video.description || ""}
                       length={200}
                       border={true}
                     />
