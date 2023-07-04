@@ -13,6 +13,15 @@ import {
 } from "@prisma/client";
 import fs from "fs";
 import path from "path";
+import { env } from "~/env.mjs";
+// import { env } from "../src/env.mjs";
+// import { config } from "dotenv";
+// import { env } from "process";
+// config();
+const cloudinaryName = env.NEXT_PUBLIC_CLOUDINARY_NAME;
+
+// require("dotenv").config();
+
 const prisma = new PrismaClient();
 
 const usersFile = path.join(__dirname, "data/user.json");
@@ -79,7 +88,7 @@ async function processInChunks<T, U>(
 async function main() {
   // Delete all records from tables
   await prisma.user.deleteMany();
-  await prisma.video.deleteMany();
+  // await prisma.video.deleteMany();
   // await prisma.videoEngagement.deleteMany();
   // await prisma.playlist.deleteMany();
   // await prisma.playlistHasVideo.deleteMany();
@@ -100,36 +109,54 @@ async function main() {
   //     },
   //   })
   // );
-  await processInChunks(users, 50, (user) =>
+  // https://res.cloudinary.com/duixtvspf/
+
+  await processInChunks(users, 1, (user) =>
     prisma.user.upsert({
       where: { id: user.id },
       update: {
         ...user,
+        image: user.image
+          ? `https://res.cloudinary.com/${cloudinaryName}${user.image}`
+          : null,
+        backgroundImage: user.backgroundImage
+          ? `https://res.cloudinary.com/${cloudinaryName}${user.backgroundImage}`
+          : null,
+
         emailVerified: user.emailVerified
           ? new Date(user.emailVerified)
           : undefined,
       },
       create: {
         ...user,
+        image: user.image
+          ? `https://res.cloudinary.com/${cloudinaryName}${user.image}`
+          : null,
+        backgroundImage: user.backgroundImage
+          ? `https://res.cloudinary.com/${cloudinaryName}${user.backgroundImage}`
+          : null,
+
         emailVerified: user.emailVerified
           ? new Date(user.emailVerified)
           : undefined,
       },
     })
   );
-  await processInChunks(videos, 50, (video) =>
-    prisma.video.upsert({
-      where: { id: video.id },
-      update: {
-        ...video,
-        createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-      },
-      create: {
-        ...video,
-        createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-      },
-    })
-  );
+
+  // await processInChunks(videos, 50, (video) =>
+  //   prisma.video.upsert({
+  //     where: { id: video.id },
+  //     update: {
+  //       ...video,
+
+  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
+  //     },
+  //     create: {
+  //       ...video,
+  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
+  //     },
+  //   })
+  // );
   // await processInChunks(videoEngagements, 50, (videoEngagement) =>
   //   prisma.videoEngagement.upsert({
   //     where: { id: videoEngagement.id.toString() },

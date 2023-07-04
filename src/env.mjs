@@ -24,6 +24,7 @@ const server = z.object({
   EMAIL_SERVER_HOST: z.string().min(1),
   EMAIL_SERVER_PORT: z.string().min(1),
   EMAIL_FROM: z.string().min(1),
+  NEXT_PUBLIC_CLOUDINARY_NAME: z.string().min(1),
 
   // GOOGLE_CLIENT_ID: z.string(),
   // GOOGLE_CLIENT_SECRET: z.string(),
@@ -35,7 +36,6 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-  NEXT_PUBLIC_CLOUDINARY_NAME: z.string().min(1),
 });
 
 /**
