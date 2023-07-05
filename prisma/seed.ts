@@ -13,17 +13,11 @@ import {
 } from "@prisma/client";
 import fs from "fs";
 import path from "path";
-import { env } from "~/env.mjs";
-// import { env } from "../src/env.mjs";
-// import { config } from "dotenv";
-// import { env } from "process";
-// config();
-const cloudinaryName = env.NEXT_PUBLIC_CLOUDINARY_NAME;
 
-// require("dotenv").config();
+// Find: "videoId":\s*(\d+)
+// Replace: "videoId": "$1"
 
 const prisma = new PrismaClient();
-
 const usersFile = path.join(__dirname, "data/user.json");
 const users: User[] = JSON.parse(fs.readFileSync(usersFile, "utf-8")) as User[];
 
@@ -67,10 +61,12 @@ const playlistsFile = path.join(__dirname, "data/playlist.json");
 const playlists: Playlist[] = JSON.parse(
   fs.readFileSync(playlistsFile, "utf-8")
 ) as Playlist[];
+
 const playlistHasVideoFile = path.join(__dirname, "data/playlistHasVideo.json");
 const playlistHasVideos: PlaylistHasVideo[] = JSON.parse(
   fs.readFileSync(playlistHasVideoFile, "utf-8")
 ) as PlaylistHasVideo[];
+
 async function processInChunks<T, U>(
   items: T[],
   chunkSize: number,
@@ -85,260 +81,188 @@ async function processInChunks<T, U>(
   return results;
 }
 
+function generateNextId(start: number, end: number) {
+  let current = start;
+  return function getNextId() {
+    const nextId = current;
+    current = current >= end ? start : current + 1;
+    return nextId.toString();
+  };
+}
+
+// Use these functions where you need to update the currentUserId and currentVideoId
+const getNextVideoId = generateNextId(1, 31);
+const getNextUserId = generateNextId(164, 178);
+const getNextPlaylistId = generateNextId(1, 18);
+
 async function main() {
   // Delete all records from tables
   await prisma.user.deleteMany();
-  // await prisma.video.deleteMany();
-  // await prisma.videoEngagement.deleteMany();
-  // await prisma.playlist.deleteMany();
-  // await prisma.playlistHasVideo.deleteMany();
-  // await prisma.followEngagement.deleteMany();
-  // await prisma.announcement.deleteMany();
-  // await prisma.announcementEngagement.deleteMany();
-  // await prisma.comment.deleteMany();
-  // await processInChunks(videos, 50, (video) =>
-  //   prisma.video.upsert({
-  //     where: { id: video.id },
-  //     update: {
-  //       ...video,
-  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-  //     },
-  //     create: {
-  //       ...video,
-  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-  //     },
-  //   })
-  // );
-  // https://res.cloudinary.com/duixtvspf/
+  await prisma.video.deleteMany();
+  await prisma.videoEngagement.deleteMany();
+  await prisma.followEngagement.deleteMany();
+  await prisma.announcement.deleteMany();
+  await prisma.announcementEngagement.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.playlist.deleteMany();
+  await prisma.playlistHasVideo.deleteMany();
+
+  // Populate tables with new data
+  const cloudinaryName = "duixtvspf";
 
   await processInChunks(users, 1, (user) =>
     prisma.user.upsert({
       where: { id: user.id },
       update: {
         ...user,
-        image: user.image
-          ? `https://res.cloudinary.com/${cloudinaryName}${user.image}`
-          : null,
-        backgroundImage: user.backgroundImage
-          ? `https://res.cloudinary.com/${cloudinaryName}${user.backgroundImage}`
-          : null,
-
         emailVerified: user.emailVerified
           ? new Date(user.emailVerified)
           : undefined,
-      },
-      create: {
-        ...user,
         image: user.image
           ? `https://res.cloudinary.com/${cloudinaryName}${user.image}`
           : null,
         backgroundImage: user.backgroundImage
           ? `https://res.cloudinary.com/${cloudinaryName}${user.backgroundImage}`
           : null,
-
+      },
+      create: {
+        ...user,
         emailVerified: user.emailVerified
           ? new Date(user.emailVerified)
+          : undefined,
+        image: user.image
+          ? `https://res.cloudinary.com/${cloudinaryName}${user.image}`
+          : null,
+        backgroundImage: user.backgroundImage
+          ? `https://res.cloudinary.com/${cloudinaryName}${user.backgroundImage}`
+          : null,
+      },
+    })
+  );
+
+  await processInChunks(videos, 1, (video) =>
+    prisma.video.upsert({
+      where: { id: video.id },
+      update: {
+        ...video,
+        createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
+        thumbnailUrl: `https://res.cloudinary.com/${cloudinaryName}${video.thumbnailUrl}`,
+        videoUrl: `https://res.cloudinary.com/${cloudinaryName}${video.videoUrl}`,
+      },
+      create: {
+        ...video,
+        createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
+        thumbnailUrl: `https://res.cloudinary.com/${cloudinaryName}${video.thumbnailUrl}`,
+        videoUrl: `https://res.cloudinary.com/${cloudinaryName}${video.videoUrl}`,
+      },
+    })
+  );
+
+  await processInChunks(videoEngagements, 1, (videoEngagement) =>
+    prisma.videoEngagement.create({ data: videoEngagement })
+  );
+
+  await processInChunks(followEngagements, 1, async (followEngagement) => {
+    const existingFollowEngagements = await prisma.followEngagement.findMany({
+      where: {
+        followerId: followEngagement.followerId,
+        followingId: followEngagement.followingId,
+      },
+    });
+    if (existingFollowEngagements.length === 0 || !existingFollowEngagements) {
+      return prisma.followEngagement.create({ data: followEngagement });
+    } else {
+      return;
+    }
+  });
+
+  await processInChunks(announcements, 1, (announcement) =>
+    prisma.announcement.create({ data: announcement })
+  );
+
+  await processInChunks(
+    announcementEngagements,
+    1,
+    async (announcementEngagement) => {
+      // Try to find an existing announcementEngagement record with the same userId and announcementId
+      const existingAnnouncementEngagements =
+        await prisma.announcementEngagement.findMany({
+          where: {
+            announcementId: announcementEngagement.announcementId, // Fixed typo here
+            userId: announcementEngagement.userId,
+          },
+        });
+      if (
+        existingAnnouncementEngagements.length === 0 ||
+        !existingAnnouncementEngagements
+      ) {
+        return prisma.announcementEngagement.create({
+          data: announcementEngagement,
+        });
+      } else {
+        return;
+      }
+    }
+  );
+
+  // ...
+
+  await processInChunks(comments, 1, (comment) =>
+    prisma.comment.upsert({
+      where: { id: comment.id },
+      update: {
+        ...comment,
+        videoId: getNextVideoId(),
+        userId: getNextUserId(),
+        createdAt: comment.createdAt ? new Date(comment.createdAt) : undefined,
+      },
+      create: {
+        ...comment,
+        userId: getNextUserId(),
+        videoId: getNextVideoId(),
+        createdAt: comment.createdAt ? new Date(comment.createdAt) : undefined,
+      },
+    })
+  );
+
+  await processInChunks(playlists, 1, async (playlist) =>
+    prisma.playlist.upsert({
+      where: { id: playlist.id },
+      update: {
+        ...playlist,
+        userId: getNextUserId(),
+        createdAt: playlist.createdAt
+          ? new Date(playlist.createdAt)
+          : undefined,
+      },
+      create: {
+        ...playlist,
+        userId: getNextUserId(),
+        createdAt: playlist.createdAt
+          ? new Date(playlist.createdAt)
           : undefined,
       },
     })
   );
 
-  // await processInChunks(videos, 50, (video) =>
-  //   prisma.video.upsert({
-  //     where: { id: video.id },
-  //     update: {
-  //       ...video,
-
-  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-  //     },
-  //     create: {
-  //       ...video,
-  //       createdAt: video.createdAt ? new Date(video.createdAt) : undefined,
-  //     },
-  //   })
-  // );
-  // await processInChunks(videoEngagements, 50, (videoEngagement) =>
-  //   prisma.videoEngagement.upsert({
-  //     where: { id: videoEngagement.id.toString() },
-  //     update: {
-  //       ...videoEngagement,
-  //       id: videoEngagement.id.toString(),
-  //       userId: videoEngagement.userId?.toString(),
-  //       videoId: videoEngagement.videoId.toString(),
-  //       engagementType:
-  //         EngagementType[
-  //           videoEngagement.engagementType as keyof typeof EngagementType
-  //         ],
-  //       createdAt: videoEngagement.createdAt
-  //         ? new Date(videoEngagement.createdAt)
-  //         : undefined,
-  //     },
-  //     create: {
-  //       ...videoEngagement,
-  //       id: videoEngagement.id.toString(),
-  //       userId: videoEngagement.userId?.toString(),
-  //       videoId: videoEngagement.videoId.toString(),
-  //       engagementType:
-  //         EngagementType[
-  //           videoEngagement.engagementType as keyof typeof EngagementType
-  //         ],
-  //       createdAt: videoEngagement.createdAt
-  //         ? new Date(videoEngagement.createdAt)
-  //         : undefined,
-  //     },
-  //   })
-  // );
-  // await processInChunks(followEngagements, 1, async (followEngagement) => {
-  //   // First try to find an existing followEngagement record with the same followerId and followingId
-  //   const existingFollowEngagements = await prisma.followEngagement.findMany({
-  //     where: {
-  //       followerId: followEngagement.followerId.toString(),
-  //       followingId: followEngagement.followingId.toString(),
-  //     },
-  //   });
-  //   if (existingFollowEngagements.length === 0 || !existingFollowEngagements) {
-  //     const data = await prisma.followEngagement.create({
-  //       data: {
-  //         follower: {
-  //           connect: { id: followEngagement.followerId.toString() },
-  //         },
-  //         following: {
-  //           connect: { id: followEngagement.followingId.toString() },
-  //         },
-  //         engagementType: followEngagement.engagementType,
-  //         createdAt: followEngagement.createdAt
-  //           ? new Date(followEngagement.createdAt)
-  //           : undefined,
-  //       },
-  //     });
-  //     return data;
-  //   } else if (existingFollowEngagements.length > 1) {
-  //     return;
-  //   }
-  // });
-  // await processInChunks(announcements, 50, (announcement) =>
-  //   prisma.announcement.upsert({
-  //     where: { id: announcement.id.toString() },
-  //     update: {
-  //       ...announcement,
-  //       createdAt: announcement.createdAt
-  //         ? new Date(announcement.createdAt)
-  //         : undefined,
-  //     },
-  //     create: {
-  //       ...announcement,
-  //       createdAt: announcement.createdAt
-  //         ? new Date(announcement.createdAt)
-  //         : undefined,
-  //     },
-  //   })
-  // );
-  // await processInChunks(
-  //   announcementEngagements,
-  //   1,
-  //   async (announcementEngagement) => {
-  //     // First try to find an existing announcementEngagement record with the same userId and announcementId
-  //     const existingAnnouncementEngagements =
-  //       await prisma.announcementEngagement.findMany({
-  //         where: {
-  //           announcementId: announcementEngagement.announcementId.toString(), // Fixed typo here
-  //           userId: announcementEngagement.userId.toString(),
-  //         },
-  //       });
-  //     if (
-  //       existingAnnouncementEngagements.length === 0 ||
-  //       !existingAnnouncementEngagements
-  //     ) {
-  //       const data = await prisma.announcementEngagement.create({
-  //         data: {
-  //           user: {
-  //             connect: { id: announcementEngagement.userId.toString() },
-  //           },
-  //           announcement: {
-  //             connect: { id: announcementEngagement.announcementId.toString() }, // And here
-  //           },
-  //           engagementType: announcementEngagement.engagementType,
-  //           createdAt: announcementEngagement.createdAt
-  //             ? new Date(announcementEngagement.createdAt)
-  //             : undefined,
-  //         },
-  //       });
-  //       return data;
-  //     } else if (existingAnnouncementEngagements.length > 1) {
-  //       return;
-  //     }
-  //   }
-  // );
-  // let currentVideoId = 1;
-  // await processInChunks(comments, 1, (comment) =>
-  //   prisma.comment
-  //     .upsert({
-  //       where: { id: comment.id },
-  //       update: {
-  //         ...comment,
-  //         videoId: currentVideoId.toString(),
-  //         createdAt: comment.createdAt
-  //           ? new Date(comment.createdAt)
-  //           : undefined,
-  //       },
-  //       create: {
-  //         ...comment,
-  //         videoId: currentVideoId.toString(),
-  //         createdAt: comment.createdAt
-  //           ? new Date(comment.createdAt)
-  //           : undefined,
-  //       },
-  //     })
-  //     .then(() => {
-  //       currentVideoId = currentVideoId >= 324 ? 1 : currentVideoId + 1;
-  //     })
-  // );
-  // let currentUserId = 164;
-  // await processInChunks(playlists, 1, async (playlist) =>
-  //   prisma.playlist
-  //     .upsert({
-  //       where: { id: playlist.id },
-  //       update: {
-  //         ...playlist,
-  //         userId: currentUserId.toString(),
-  //         createdAt: playlist.createdAt
-  //           ? new Date(playlist.createdAt)
-  //           : undefined,
-  //       },
-  //       create: {
-  //         ...playlist,
-  //         userId: currentUserId.toString(),
-  //         createdAt: playlist.createdAt
-  //           ? new Date(playlist.createdAt)
-  //           : undefined,
-  //       },
-  //     })
-  //     .then(() => {
-  //       currentUserId = currentUserId >= 200 ? 1 : currentUserId + 1;
-  //     })
-  // );
-  //   await processInChunks(playlistHasVideos, 50, (playlistHasVideo) =>
-  //     prisma.playlistHasVideo.upsert({
-  //       where: { id: playlistHasVideo.id.toString() },
-  //       update: {
-  //         id: playlistHasVideo.id.toString(),
-  //         playlistId: playlistHasVideo.playlistId.toString(),
-  //         videoId: playlistHasVideo.videoId.toString(),
-  //       },
-  //       create: {
-  //         id: playlistHasVideo.id.toString(),
-  //         playlistId: playlistHasVideo.playlistId.toString(),
-  //         videoId: playlistHasVideo.videoId.toString(),
-  //       },
-  //     })
-  //   );
+  await processInChunks(playlistHasVideos, 1, (playlistHasVideo) =>
+    prisma.playlistHasVideo.upsert({
+      where: { id: playlistHasVideo.id.toString() },
+      update: {
+        id: playlistHasVideo.id.toString(),
+        videoId: getNextVideoId(),
+        playlistId: getNextPlaylistId(),
+      },
+      create: {
+        id: playlistHasVideo.id.toString(),
+        playlistId: getNextPlaylistId(),
+        videoId: getNextVideoId(),
+      },
+    })
+  );
 }
-
-void main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .then(async () => {
-    await prisma.$disconnect();
+main()
+  .catch((e) => console.error(e))
+  .finally(() => {
+    void prisma.$disconnect();
   });
