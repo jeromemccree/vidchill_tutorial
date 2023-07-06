@@ -3,6 +3,7 @@ export { default as Description } from "./Description";
 export { default as Layout } from "./Layout";
 export { default as Navbar } from "./Navbar";
 export { default as Sidebar } from "./Sidebar";
+export { default as Footer } from "./Footer";
 export { MultiColumnPlaylist, SinglePlaylist } from "./PlaylistComponent";
 export { default as ProfileHeader } from "./ProfileHeader";
 export {

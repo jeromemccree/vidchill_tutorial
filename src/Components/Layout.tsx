@@ -1,6 +1,5 @@
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import { Navbar, Sidebar, Footer } from "./Components";
 import React, { useState } from "react";
 
 interface LayoutProps {
@@ -33,7 +32,11 @@ export default function Layout({ children, closeSidebar }: LayoutProps) {
           closeSidebar={closeSidebar}
           setSidebarOpen={setSidebarOpen}
         ></Sidebar>
+        <div className="lg:hidden">
+          <Footer />
+        </div>
       </div>
+
       <div className={classNames(closeSidebar ? "lg:pl-20" : "lg:pl-56")}>
         <main className="py-24">
           <div className=" mx-auto px-4 sm:px-6 lg:px-8">

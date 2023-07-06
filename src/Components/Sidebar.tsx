@@ -21,7 +21,6 @@ import {
   Close,
 } from "./Icons/Icons";
 import { Logo } from "./Icons/Logo";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserImage } from "./Components";
