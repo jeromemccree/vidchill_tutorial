@@ -3,7 +3,7 @@
     "id": "1",
     "title": "Tech Today",
     "description": "Keep up with the latest advancements in technology. From product reviews, to coding tutorials, to discussions about future technologies, this playlist will keep you at the cutting edge.",
-    "userId": "175",
+    "userId": "170",
     "createdAt": "2021-03-14T13:14:15Z"
   },
 
@@ -11,7 +11,7 @@
     "id": "2",
     "title": "World Travel Diaries",
     "description": "Join us on a journey around the world through these captivating travel vlogs. Experience diverse cultures, beautiful landscapes, and hidden gems in every corner of the globe.",
-    "userId": "180",
+    "userId": "166",
     "createdAt": "2021-02-02T10:22:00Z"
   },
 
@@ -27,7 +27,7 @@
     "id": "4",
     "title": "World Literature",
     "description": "Journey through the rich world of literature with reviews, author interviews, book recommendations and more from around the globe.",
-    "userId": "175",
+    "userId": "176",
     "createdAt": "2021-01-22T16:00:00Z"
   },
 

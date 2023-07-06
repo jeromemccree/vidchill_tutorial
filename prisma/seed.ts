@@ -204,9 +204,6 @@ async function main() {
       }
     }
   );
-
-  // ...
-
   await processInChunks(comments, 1, (comment) =>
     prisma.comment.upsert({
       where: { id: comment.id },
@@ -246,19 +243,7 @@ async function main() {
   );
 
   await processInChunks(playlistHasVideos, 1, (playlistHasVideo) =>
-    prisma.playlistHasVideo.upsert({
-      where: { id: playlistHasVideo.id.toString() },
-      update: {
-        id: playlistHasVideo.id.toString(),
-        videoId: getNextVideoId(),
-        playlistId: getNextPlaylistId(),
-      },
-      create: {
-        id: playlistHasVideo.id.toString(),
-        playlistId: getNextPlaylistId(),
-        videoId: getNextVideoId(),
-      },
-    })
+    prisma.playlistHasVideo.create({ data: playlistHasVideo })
   );
 }
 main()
