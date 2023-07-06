@@ -14,10 +14,6 @@ import fs from "fs";
 import path from "path";
 
 // To generate the data files, run the following commands:
-
-// Find: "videoId":\s*(\d+)
-// Replace: "videoId": "$1"
-
 const prisma = new PrismaClient();
 const usersFile = path.join(__dirname, "data/user.json");
 const users: User[] = JSON.parse(fs.readFileSync(usersFile, "utf-8")) as User[];

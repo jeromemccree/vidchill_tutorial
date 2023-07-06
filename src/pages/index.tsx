@@ -7,7 +7,6 @@ import {
   LoadingMessage,
   ErrorMessage,
 } from "../Components/Components";
-import { env } from "~/env.mjs";
 const Home: NextPage = () => {
   const { data, isLoading, error } = api.video.getRandomVideos.useQuery(40);
 
