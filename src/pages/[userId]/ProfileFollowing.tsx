@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import Head from "next/head";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import {
@@ -9,7 +8,6 @@ import {
   ProfileHeader,
   UserImage,
 } from "~/Components/Components";
-import Image from "next/image";
 import { FollowButton } from "~/Components/Buttons/Buttons";
 import { useSession } from "next-auth/react";
 const ProfileFollowigs: NextPage = () => {
