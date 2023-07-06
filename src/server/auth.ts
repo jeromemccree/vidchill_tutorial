@@ -46,17 +46,6 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    // GoogleProvider({
-    //   clientId: env.GOOGLE_CLIENT_ID,
-    //   clientSecret: env.GOOGLE_CLIENT_SECRET,
-    //   authorization: {
-    //     params: {
-    //       prompt: "consent",
-    //       access_type: "offline",
-    //       response_type: "code",
-    //     },
-    //   },
-    // }),
     EmailProvider({
       server: {
         host: env.EMAIL_SERVER_HOST,
@@ -84,7 +73,7 @@ export const authOptions: NextAuthOptions = {
   theme: {
     colorScheme: "light", // "auto" | "dark" | "light"
     brandColor: "#11999E", // Hex color code
-    logo: "https://res.cloudinary.com/dwczi6gl7/image/upload/v1682693884/vidplay_logo1_iwagju.svg", // Absolute URL to image
+    logo: "/logo.svg", // Absolute URL to image
     buttonText: "#FFFFFF", // Hex color code
   },
 };

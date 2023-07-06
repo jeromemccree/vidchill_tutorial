@@ -90,10 +90,7 @@ export default function ProfileHeader() {
             <div>
               <Image
                 className="h-32 w-full object-cover lg:h-64"
-                src={
-                  channel.backgroundImage ||
-                  "https://res.cloudinary.com/dwczi6gl7/image/upload/v1684595721/transparent-background-checkered-wallpaper-photoshop-psd-4k-transparent-empty-grid-layout_691560-11_ikg4xs.jpg"
-                }
+                src={channel.backgroundImage || "/background.jpg"}
                 width={2000}
                 height={2000}
                 alt="error"

@@ -2,7 +2,6 @@ import {
   type Video,
   type User,
   type VideoEngagement,
-  EngagementType,
   type FollowEngagement,
   type Announcement,
   PrismaClient,
@@ -13,6 +12,8 @@ import {
 } from "@prisma/client";
 import fs from "fs";
 import path from "path";
+
+// To generate the data files, run the following commands:
 
 // Find: "videoId":\s*(\d+)
 // Replace: "videoId": "$1"
@@ -93,7 +94,7 @@ function generateNextId(start: number, end: number) {
 // Use these functions where you need to update the currentUserId and currentVideoId
 const getNextVideoId = generateNextId(1, 31);
 const getNextUserId = generateNextId(164, 178);
-const getNextPlaylistId = generateNextId(1, 18);
+const cloudinaryName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME || "";
 
 async function main() {
   // Delete all records from tables
@@ -108,7 +109,6 @@ async function main() {
   await prisma.playlistHasVideo.deleteMany();
 
   // Populate tables with new data
-  const cloudinaryName = "duixtvspf";
 
   await processInChunks(users, 1, (user) =>
     prisma.user.upsert({

@@ -171,13 +171,14 @@ export function UserImage({
   image: string;
   className?: string;
 }) {
-  const defaultImage =
-    "https://res.cloudinary.com/dwczi6gl7/image/upload/v1687280791/profilepic_uwibt3.webp";
-  const imageUrl = image || defaultImage;
-
   return (
-    <div className={`  relative h-9 w-9 ${className}`}>
-      <Image src={imageUrl} alt="" className="absolute rounded-full" fill />
+    <div className={`relative h-9 w-9 ${className}`}>
+      <Image
+        src={image || "/profilePic.webp"}
+        alt=""
+        className="absolute rounded-full"
+        fill
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import "cropperjs/dist/cropper.css";
 import { Button } from "./Buttons";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
+import { env } from "~/env.mjs";
 
 export function UploadButton({ refetch }: { refetch: () => Promise<unknown> }) {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,9 @@ export function UploadButton({ refetch }: { refetch: () => Promise<unknown> }) {
     }
 
     fetch(
-      "https://api.cloudinary.com/v1_1/dwczi6gl7/video/upload",
+      "https://api.cloudinary.com/v1_1//" +
+        env.NEXT_PUBLIC_CLOUDINARY_NAME +
+        "/video/upload",
 
       {
         method: "POST",

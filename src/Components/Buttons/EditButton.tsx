@@ -6,6 +6,7 @@ import "cropperjs/dist/cropper.css";
 import { Button } from "./Buttons";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
+import { env } from "~/env.mjs";
 
 interface EditButtonProps {
   video: {
@@ -56,7 +57,9 @@ export function EditButton({ video, refetch }: EditButtonProps) {
     formData.append("upload_preset", "user_uploads");
     formData.append("file", croppedImage as string);
     fetch(
-      "https://api.cloudinary.com/v1_1/dwczi6gl7/image/upload",
+      "https://api.cloudinary.com/v1_1/" +
+        env.NEXT_PUBLIC_CLOUDINARY_NAME +
+        "/image/upload",
 
       {
         method: "POST",

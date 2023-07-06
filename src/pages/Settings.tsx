@@ -8,6 +8,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { ImageCropper } from "~/Components/Buttons/EditButton";
 import { api } from "~/utils/api";
+import { env } from "~/env.mjs";
 
 const Settings: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -308,7 +309,9 @@ export function CropImageModal({
     formData.append("file", croppedDataUrl);
 
     fetch(
-      "https://api.cloudinary.com/v1_1/dwczi6gl7/image/upload",
+      "https://api.cloudinary.com/v1_1/" +
+        env.NEXT_PUBLIC_CLOUDINARY_NAME +
+        "/image/upload",
 
       {
         method: "POST",
@@ -351,10 +354,7 @@ export function CropImageModal({
               className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
               width="2000"
               height="2000"
-              src={
-                channel?.image ||
-                "https://res.cloudinary.com/dwczi6gl7/image/upload/v1687280791/profilepic_uwibt3.webp"
-              }
+              src={channel?.image || "/profilePic.webp"}
               alt="error"
             />
           </label>
@@ -371,10 +371,7 @@ export function CropImageModal({
             />
             <Image
               className="h-32 w-full object-cover lg:h-64"
-              src={
-                channel.backgroundImage ||
-                "https://res.cloudinary.com/dwczi6gl7/image/upload/v1684595721/transparent-background-checkered-wallpaper-photoshop-psd-4k-transparent-empty-grid-layout_691560-11_ikg4xs.jpg"
-              }
+              src={channel.backgroundImage || "/background.jpg"}
               width={2000}
               height={2000}
               alt="error"
