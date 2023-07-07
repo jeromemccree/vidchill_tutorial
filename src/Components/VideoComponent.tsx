@@ -174,7 +174,7 @@ export function UserImage({
   return (
     <div className={`relative h-9 w-9 ${className}`}>
       <Image
-        src={image || "/profilePic.webp"}
+        src={image || "/profile.jpg"}
         alt=""
         className="absolute rounded-full"
         fill

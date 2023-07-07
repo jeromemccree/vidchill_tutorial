@@ -354,7 +354,7 @@ export function CropImageModal({
               className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
               width="2000"
               height="2000"
-              src={channel?.image || "/profilePic.webp"}
+              src={channel?.image || "/profile.jpg"}
               alt="error"
             />
           </label>

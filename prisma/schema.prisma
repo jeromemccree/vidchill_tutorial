@@ -8,6 +8,14 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum EngagementType {
+  LIKE
+  DISLIKE
+  SAVE
+  FOLLOW
+  VIEW
+}
+
 model User {
   id                      String                   @id @default(cuid())
   name                    String?
@@ -175,12 +183,4 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-enum EngagementType {
-  LIKE
-  DISLIKE
-  SAVE
-  FOLLOW
-  VIEW
 }
