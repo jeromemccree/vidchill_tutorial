@@ -22,6 +22,8 @@ export { default as Edit } from "./Edit";
 export { default as Upload } from "./Upload";
 export { default as Trash } from "./Trash";
 export { ChevronUp, ChevronDown } from "./Chevron";
+export { default as Search } from "./Search";
+export { default as Menu } from "./Menu";
 export {
   GreenPlay,
   GreenHorn,

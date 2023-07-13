@@ -20,8 +20,9 @@ const Button: FC<ButtonProps> = ({
   variant = "primary",
   size = "md",
   disabled,
-  href,
   className = "",
+
+  href,
   ...props
 }) => {
   const sizeClasses = {
@@ -43,6 +44,7 @@ const Button: FC<ButtonProps> = ({
 
   const buttonClasses = [
     className,
+
     "font-semibold",
     "rounded-lg",
     sizeClasses[size],

@@ -372,20 +372,34 @@ export default function Sidebar({
                           </Button>
                         </div>
                       ) : (
-                        <li className="space-y-2 ">
+                        <li className="space-y-2">
                           <Button
                             variant="primary"
                             size="2xl"
                             className="w-full"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              {
+                                void signIn();
+                              }
+                            }}
                           >
-                            Sign up
+                            {" "}
+                            Sign Up
                           </Button>
                           <Button
                             variant="secondary-gray"
                             size="2xl"
                             className="w-full"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              {
+                                void signIn();
+                              }
+                            }}
                           >
-                            Log in
+                            {" "}
+                            Log In
                           </Button>
                         </li>
                       )}
