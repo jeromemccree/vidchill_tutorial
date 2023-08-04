@@ -20,9 +20,9 @@ const ProfileAnnouncements: NextPage = () => {
   const { userId } = router.query;
   const { data: sessionData } = useSession();
   const [announcementInput, setAnnouncementInput] = useState("");
+
   const addAnnouncementMutation =
     api.announcement.addAnnouncement.useMutation();
-
   const addAnnouncement = (input: { userId: string; message: string }) => {
     addAnnouncementMutation.mutate(input, {
       onSuccess: () => {

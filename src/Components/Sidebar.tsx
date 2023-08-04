@@ -268,27 +268,17 @@ export default function Sidebar({
               leaveTo="-translate-x-full"
             >
               <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-in-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in-out duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                    <button
-                      type="button"
-                      className="-m-2.5 p-2.5"
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      <span className="sr-only">Close sidebar</span>
+                <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
+                  <button
+                    type="button"
+                    className="-m-2.5 p-2.5"
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <span className="sr-only">Close sidebar</span>
 
-                      <Close className="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
-                </Transition.Child>
+                    <Close className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
                 {/* Sidebar component FOR MOBILE, swap this element with another sidebar if you like */}
                 <div className=" flex grow  flex-col gap-y-5 overflow-y-auto border-r  border-gray-200 bg-white  px-6 pb-4">
                   <nav className="flex flex-1 flex-col pt-4">
@@ -353,17 +343,15 @@ export default function Sidebar({
                       {sessionData ? (
                         <div className="my-2 flex flex-row bg-blue-300">
                           <UserImage image={sessionData?.user.image || ""} />
-                          <div className="ml-2 flex w-full flex-col justify-start truncate ">
-                            <p className="truncate text-sm font-semibold text-gray-700">
+                          <div className="ml-2 flex w-full flex-col  justify-start truncate text-sm ">
+                            <p className="font-semibold text-gray-700">
                               {sessionData && (
                                 <span>{sessionData.user?.name}</span>
                               )}
                             </p>
-                            <p className=" truncate text-sm text-gray-600">
+                            <p className=" text-gray-600">
                               {sessionData && (
-                                <span className="">
-                                  {sessionData.user?.email}
-                                </span>
+                                <span>{sessionData.user?.email}</span>
                               )}
                             </p>
                           </div>

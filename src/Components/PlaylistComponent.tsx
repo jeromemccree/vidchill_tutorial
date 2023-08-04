@@ -44,7 +44,6 @@ export const PlaylistPage: React.FC<PlaylistPageProps> = ({
   authors,
   user,
 }) => {
-  // console.log(playlist);
   if (!playlist || !videos || !authors || !user) {
     return <></>;
   }
@@ -57,17 +56,15 @@ export const PlaylistPage: React.FC<PlaylistPageProps> = ({
       </Head>
       <main className="mx-auto gap-4 lg:flex">
         <div className="lg:w-1/2 lg:px-0 lg:pl-6">
-          <Link href={`/video/${playlist.id}`} key={playlist.id}>
-            <SinglePlaylist
-              playlist={{
-                id: playlist?.id || "",
-                title: playlist?.title || "",
-                videoCount: playlist?.videoCount || 0,
-                playlistThumbnail: playlist?.playlistThumbnail || "",
-                createdAt: playlist?.createdAt || new Date(),
-              }}
-            />
-          </Link>
+          <SinglePlaylist
+            playlist={{
+              id: playlist?.id || "",
+              title: playlist?.title || "",
+              videoCount: playlist?.videoCount || 0,
+              playlistThumbnail: playlist?.playlistThumbnail || "",
+              createdAt: playlist?.createdAt || new Date(),
+            }}
+          />
           <Description
             text={playlist.description || ""}
             length={250}
@@ -77,7 +74,7 @@ export const PlaylistPage: React.FC<PlaylistPageProps> = ({
             <Link href={`/${user.id}/ProfileVideos`} key={user.id}>
               <div className="mt-4 flex flex-row gap-2 ">
                 <UserImage image={user.image || ""} />
-                <button className="flex flex-col ">
+                <div className="flex flex-col ">
                   <p className="w-max text-sm font-semibold leading-6 text-gray-900">
                     {user.name || ""}
                   </p>
@@ -85,7 +82,7 @@ export const PlaylistPage: React.FC<PlaylistPageProps> = ({
                     {user.followers}
                     <span> Followers</span>
                   </p>
-                </button>
+                </div>
               </div>
             </Link>
           </div>

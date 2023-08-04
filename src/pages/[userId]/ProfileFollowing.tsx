@@ -61,21 +61,17 @@ const ProfileFollowigs: NextPage = () => {
               {user?.followings.map((following) => (
                 <li className="py-4" key={following.following.id}>
                   <div className="flex gap-2">
-                    <div>
-                      <UserImage
-                        className="!h-10 !w-10 "
-                        image={following.following?.image || ""}
-                      />
-                    </div>
+                    <UserImage
+                      className="!h-10 !w-10 "
+                      image={following.following?.image || ""}
+                    />
                     <div className="flex w-full flex-row justify-between">
-                      <div className="flex flex-col">
-                        <div className="flex flex-row items-start gap-2 text-xs">
-                          <p className="w-max text-sm  font-semibold leading-6 text-gray-900">
-                            {following.following.name}
-                          </p>
-                        </div>
-                        <p className="text-sm text-gray-600">
-                          {following.following.handle}
+                      <div className="flex flex-col text-sm">
+                        <p className="font-semibold text-gray-900">
+                          {following.following.name}
+                        </p>
+                        <p className="text-gray-600">
+                          {following.following?.handle}
                         </p>
                       </div>
                       <FollowButton

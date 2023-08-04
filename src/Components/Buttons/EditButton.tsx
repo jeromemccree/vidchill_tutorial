@@ -19,12 +19,21 @@ interface EditButtonProps {
 }
 
 export function EditButton({ video, refetch }: EditButtonProps) {
+  // ! Step 1 start
   const [open, setOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const cancelButtonRef = useRef(null);
+
+  // ! Step 1 End
+  // ! Step 2 start
+  const [currentPage, setCurrentPage] = useState(1);
+  // ! Step 2 End
+  // ! Step 3 start
   const [image, setImage] = useState<File | null>(null);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  // ! Step 3 End
+
   // user form
+  // ! Step 2 start
   const [user, setUser] = useState({
     title: video.title,
     description: video.description,
@@ -40,7 +49,9 @@ export function EditButton({ video, refetch }: EditButtonProps) {
       [event.target.name]: event.target.value,
     }));
   };
+  // ! Step 2 Stop
 
+  // ! step 4
   const handleSubmit = () => {
     type UploadResponse = {
       secure_url: string;
@@ -95,7 +106,9 @@ export function EditButton({ video, refetch }: EditButtonProps) {
         console.error("An error occurred:", error);
       });
   };
+  //! step 4 end
   //user form end
+  // ! Step 2 start
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -103,14 +116,18 @@ export function EditButton({ video, refetch }: EditButtonProps) {
       setCurrentPage(2);
     }
   };
+  // ! Step 2 Stop
 
+  // ! Step 1 start
   const handleClick = () => {
     setCurrentPage(1);
     setOpen(true);
   };
+  // ! Step 1 End
 
   return (
     <>
+      {/* ! step 1 start */}
       <button onClick={() => handleClick()}>
         <Edit className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
       </button>
@@ -146,6 +163,8 @@ export function EditButton({ video, refetch }: EditButtonProps) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                  {/* ! step 1 End */}
+                  {/* step 2 start */}
                   {currentPage === 1 && (
                     <>
                       <div className="sm:flex sm:items-start  ">
@@ -156,11 +175,9 @@ export function EditButton({ video, refetch }: EditButtonProps) {
                           >
                             Edit Video
                           </Dialog.Title>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Edit your thumbnail, title, or description
-                            </p>
-                          </div>
+                          <p className="mt-2 text-sm text-gray-500">
+                            Edit your thumbnail, title, or description
+                          </p>
                           <div className="col-span-full">
                             <label
                               htmlFor="cover-photo"
@@ -173,7 +190,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
                                 {croppedImage ? (
                                   <img src={croppedImage} alt="Cropped" />
                                 ) : (
-                                  <div>
+                                  <>
                                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                       <label
                                         htmlFor="file-upload"
@@ -193,7 +210,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
                                     <p className="text-xs leading-5 text-gray-600">
                                       PNG, JPG, GIF up to 10MB
                                     </p>
-                                  </div>
+                                  </>
                                 )}
                               </div>
                             </div>
@@ -254,6 +271,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
                       </div>
                     </>
                   )}
+                  {/* step 2 End */}
 
                   {currentPage === 2 && (
                     <>
@@ -273,6 +291,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
     </>
   );
 }
+// step 3
 export function ImageCropper({
   setCurrentPage,
   setCroppedImage,
@@ -341,3 +360,4 @@ export function ImageCropper({
     </div>
   );
 }
+// step 3 end

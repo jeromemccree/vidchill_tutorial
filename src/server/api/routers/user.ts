@@ -8,7 +8,7 @@ import {
 } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
-  getDashboardData: publicProcedure
+  getDashboardData: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
       const user = await ctx.prisma.user.findUnique({
@@ -143,7 +143,7 @@ export const userRouter = createTRPCRouter({
         },
       });
       if (!user) {
-        throw new Error("Video not found");
+        throw new Error("User not found");
       }
 
       const followers = await ctx.prisma.followEngagement.count({

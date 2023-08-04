@@ -19,12 +19,16 @@ import React, { type ReactElement } from "react";
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();
 
+  // ! step 1 start
   const userId = sessionData?.user.id;
   const { data, isLoading, error, refetch } =
     api.user.getDashboardData.useQuery(userId as string);
-  console.log("data");
-  console.log(data);
 
+  interface StatsItem {
+    name: string;
+    stat: string;
+    icon: (className: string) => JSX.Element;
+  }
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
@@ -40,31 +44,26 @@ const Dashboard: NextPage = () => {
       return <></>;
     }
   };
-
-  interface IconWrapperProps {
-    icon: ReactElement;
-    className: string;
-  }
-  const IconWrapper: React.FC<IconWrapperProps> = ({ icon, className }) => {
-    return React.cloneElement(icon, { className });
-  };
-  const stats = [
+  // ! step 1 End
+  // ! step 3 Start
+  const stats: StatsItem[] = [
     {
       name: "Total Views",
-      stat: data?.totalViews?.toString(),
-      icon: <GreenEye />,
+      stat: data?.totalViews?.toString() || "0",
+      icon: (className) => <GreenEye className={className} />,
     },
     {
       name: "Total followers",
-      stat: data?.totalFollowers?.toString(),
-      icon: <GreenUserCheck />,
+      stat: data?.totalFollowers?.toString() || "0",
+      icon: (className) => <GreenUserCheck className={className} />,
     },
     {
       name: "Total likes",
-      stat: data?.totalLikes?.toString(),
-      icon: <GreenHeart />,
+      stat: data?.totalLikes?.toString() || "0",
+      icon: (className) => <GreenHeart className={className} />,
     },
   ];
+  // ! step 3 End
 
   return (
     <>
@@ -77,6 +76,7 @@ const Dashboard: NextPage = () => {
           {!data ? (
             <Error />
           ) : (
+            // ! step 2 start
             <div className="flex flex-col gap-8 bg-white pt-3 shadow sm:rounded-lg">
               <div className="md:flex md:items-center md:justify-between md:space-x-5">
                 <div className="flex items-start space-x-5">
@@ -89,26 +89,24 @@ const Dashboard: NextPage = () => {
                     </p>
                   </div>
                 </div>
+                {/* // ! step 8 Skip Start */}
                 <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
                   <UploadButton refetch={refetch} />
                 </div>
+                {/* // ! step 8 Skip End */}
               </div>
               <div>
+                {/* // ! step 2 End */}
+                {/* // ! step 4 Start */}
                 <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200  shadow-sm   md:grid-cols-3 md:divide-x md:divide-y-0">
                   {stats.map((item) => (
                     <div key={item.name} className="px-4 py-5 sm:p-6">
-                      <IconWrapper
-                        icon={item.icon}
-                        className="h-4 w-4 stroke-gray-700"
-                      />
-
+                      {item.icon("h-4 w-4 ")}
                       <dt className="text-base font-normal text-gray-900">
                         {item.name}
                       </dt>
-                      <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                        <div className="flex items-baseline text-3xl font-semibold text-primary-600">
-                          {item.stat}
-                        </div>
+                      <dd className="mt-1 text-3xl font-semibold text-primary-600 md:block lg:flex">
+                        {item.stat}
                       </dd>
                     </div>
                   ))}
@@ -158,10 +156,14 @@ const Dashboard: NextPage = () => {
                             </th>
                           </tr>
                         </thead>
+                        {/* // ! step 4 End */}
+
                         <tbody className="divide-y divide-gray-200 bg-white">
                           {data?.videos.map((video) => (
                             <tr key={video.id}>
+                              {/* // ! step 5 Start */}
                               <PublishedButton video={video} />
+                              {/* // ! step 5 End */}
                               <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                 <div className="flex">
                                   <div className="h-16 w-16 flex-shrink-0">
@@ -169,10 +171,8 @@ const Dashboard: NextPage = () => {
                                       thumbnailUrl={video.thumbnailUrl}
                                     />
                                   </div>
-                                  <div className="ml-4">
-                                    <div className="font-medium text-gray-900">
-                                      {video.title}
-                                    </div>
+                                  <div className="ml-4 font-medium text-gray-900">
+                                    {video.title}
                                   </div>
                                 </div>
                               </td>
@@ -189,10 +189,14 @@ const Dashboard: NextPage = () => {
                               </td>
                               <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-600">
                                 <div className="flex flex-row gap-2">
+                                  {/* // ! step 6 Start */}
                                   <DeleteButton
                                     videoId={video.id}
                                     refetch={refetch}
                                   />
+                                  {/* // ! step 6 End */}
+
+                                  {/* // ! step 7 Start */}
                                   <EditButton
                                     video={{
                                       id: video?.id || "",
@@ -202,6 +206,7 @@ const Dashboard: NextPage = () => {
                                     }}
                                     refetch={refetch}
                                   />
+                                  {/* // ! step 7 End */}
                                 </div>
                               </td>
                             </tr>
@@ -218,6 +223,9 @@ const Dashboard: NextPage = () => {
       </Layout>
     </>
   );
+  {
+    /* // ! step 4 End */
+  }
 };
 
 export default Dashboard;

@@ -74,7 +74,7 @@ export const playlistRouter = createTRPCRouter({
       };
     }),
 
-  getSavePlaylistData: publicProcedure
+  getSavePlaylistData: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
       const Playlists = await ctx.prisma.playlist.findMany({

@@ -172,7 +172,7 @@ export function UserImage({
   className?: string;
 }) {
   return (
-    <div className={`relative h-9 w-9 ${className}`}>
+    <div className={`relative h-10 w-10 ${className}`}>
       <Image
         src={image || "/profile.jpg"}
         alt=""

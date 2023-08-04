@@ -24,6 +24,7 @@ export { default as Trash } from "./Trash";
 export { ChevronUp, ChevronDown } from "./Chevron";
 export { default as Search } from "./Search";
 export { default as Menu } from "./Menu";
+export { RedTrash } from "./RedTrash";
 export {
   GreenPlay,
   GreenHorn,

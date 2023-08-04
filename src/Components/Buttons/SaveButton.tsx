@@ -10,7 +10,10 @@ export default function SaveButton({ videoId }: { videoId: string }) {
   const [checkedStatus, setCheckedStatus] = useState<{
     [key: string]: boolean;
   }>({});
+
   const { data: sessionData } = useSession();
+
+  // ! 4 start
   const { data: playlists, refetch: refetchPlaylists } =
     api.playlist.getSavePlaylistData.useQuery(sessionData?.user?.id as string, {
       enabled: false, // this query will not run automatically
@@ -28,7 +31,9 @@ export default function SaveButton({ videoId }: { videoId: string }) {
       setCheckedStatus(initialCheckedStatus);
     }
   }, [open]);
+  // ! 4 end
 
+  //! 6 start
   const addVideoToPlaylistMutation = api.video.addVideoToPlaylist.useMutation();
   const handleCheckmarkToggle = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -43,7 +48,9 @@ export default function SaveButton({ videoId }: { videoId: string }) {
       [input.playlistId]: event.target.checked,
     });
   };
+  //! 6 End
 
+  //! 8 Start
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const createPlaylistMutation = api.playlist.addPlaylist.useMutation();
   const handleCreatePlaylist = () => {
@@ -62,12 +69,14 @@ export default function SaveButton({ videoId }: { videoId: string }) {
       );
     }
   };
+  //! 8 End
+
   if (!videoId) {
     return <div>Loading...</div>;
   }
-
   return (
     <>
+      {/* 1 Start  */}
       <Button
         variant="secondary-gray"
         size="2xl"
@@ -77,6 +86,9 @@ export default function SaveButton({ videoId }: { videoId: string }) {
         <FolderPlus className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
         Save
       </Button>
+      {/* 1 End  */}
+
+      {/* 2 Start  */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
           <Transition.Child
@@ -90,12 +102,13 @@ export default function SaveButton({ videoId }: { videoId: string }) {
           >
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
-
+          {/* 2 End */}
+          {/* 3 Start */}
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
+                enter="ease-out duration-100"
                 enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 enterTo="opacity-100 translate-y-0 sm:scale-100"
                 leave="ease-in duration-200"
@@ -121,10 +134,14 @@ export default function SaveButton({ videoId }: { videoId: string }) {
                       Save Video To Playlist
                     </Dialog.Title>
                   </div>
+                  {/* 3 End */}
+                  {/* 5 start */}
                   <fieldset className="w-full">
                     {playlists?.map((playlist) => (
                       <div key={playlist.id} className=" space-y-5  py-1 ">
                         <div className="relative flex items-start justify-start text-left">
+                          {/* 5 skip here */}
+                          {/* 7 start */}
                           <div className="flex h-6 items-center">
                             <input
                               id="comments"
@@ -141,6 +158,9 @@ export default function SaveButton({ videoId }: { videoId: string }) {
                               className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-600"
                             />
                           </div>
+                          {/* 7 start End */}
+                          {/* 5 skip stop */}
+
                           <div className="ml-3 text-sm leading-6">
                             <label
                               htmlFor="comments"
@@ -153,7 +173,8 @@ export default function SaveButton({ videoId }: { videoId: string }) {
                       </div>
                     ))}
                   </fieldset>
-
+                  {/* 5 start stop */}
+                  {/* 9 Start */}
                   <div className="mt-5 flex w-full flex-col gap-2 text-left">
                     <div>
                       <label
@@ -188,6 +209,7 @@ export default function SaveButton({ videoId }: { videoId: string }) {
                       Create New Playlist
                     </Button>
                   </div>
+                  {/* 9 End */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
