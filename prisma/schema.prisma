@@ -8,14 +8,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-enum EngagementType {
-  LIKE
-  DISLIKE
-  SAVE
-  FOLLOW
-  VIEW
-}
-
 model User {
   id                      String                   @id @default(cuid())
   name                    String?
@@ -39,10 +31,10 @@ model User {
 
 model Video {
   id               String             @id @default(cuid())
-  title            String             @default(dbgenerated("(_utf8mb4\\'No Name\\')")) @db.Text
+  title            String?            @db.Text
+  thumbnailUrl     String?            @db.Text
   description      String?            @db.Text
-  thumbnailUrl     String             @default(dbgenerated("(_utf8mb4\\'https://via.placeholder.com/150\\')")) @db.Text
-  videoUrl         String             @db.Text
+  videoUrl         String?            @db.Text
   publish          Boolean            @default(true)
   userId           String
   createdAt        DateTime           @default(now())
@@ -59,9 +51,9 @@ model VideoEngagement {
   id             String         @id @default(cuid())
   userId         String?
   videoId        String
-  engagementType EngagementType
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  engagementType EngagementType
   user           User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   video          Video          @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
@@ -122,10 +114,10 @@ model Announcement {
 
 model AnnouncementEngagement {
   userId         String
-  announcementId String
   engagementType EngagementType
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  announcementId String
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   announcement   Announcement   @relation(fields: [announcementId], references: [id], onDelete: Cascade)
 
@@ -183,4 +175,12 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum EngagementType {
+  LIKE
+  DISLIKE
+  SAVE
+  FOLLOW
+  VIEW
 }

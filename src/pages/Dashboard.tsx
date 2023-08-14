@@ -15,11 +15,10 @@ import {
 } from "~/Components/Buttons/Buttons";
 import { api } from "~/utils/api";
 import { GreenEye, GreenUserCheck, GreenHeart } from "~/Components/Icons/Icons";
-import React, { type ReactElement } from "react";
+import React from "react";
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();
 
-  // ! step 1 start
   const userId = sessionData?.user.id;
   const { data, isLoading, error, refetch } =
     api.user.getDashboardData.useQuery(userId as string);
@@ -44,8 +43,7 @@ const Dashboard: NextPage = () => {
       return <></>;
     }
   };
-  // ! step 1 End
-  // ! step 3 Start
+
   const stats: StatsItem[] = [
     {
       name: "Total Views",
@@ -63,7 +61,6 @@ const Dashboard: NextPage = () => {
       icon: (className) => <GreenHeart className={className} />,
     },
   ];
-  // ! step 3 End
 
   return (
     <>
@@ -76,7 +73,6 @@ const Dashboard: NextPage = () => {
           {!data ? (
             <Error />
           ) : (
-            // ! step 2 start
             <div className="flex flex-col gap-8 bg-white pt-3 shadow sm:rounded-lg">
               <div className="md:flex md:items-center md:justify-between md:space-x-5">
                 <div className="flex items-start space-x-5">
@@ -89,15 +85,11 @@ const Dashboard: NextPage = () => {
                     </p>
                   </div>
                 </div>
-                {/* // ! step 8 Skip Start */}
                 <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
                   <UploadButton refetch={refetch} />
                 </div>
-                {/* // ! step 8 Skip End */}
               </div>
               <div>
-                {/* // ! step 2 End */}
-                {/* // ! step 4 Start */}
                 <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200  shadow-sm   md:grid-cols-3 md:divide-x md:divide-y-0">
                   {stats.map((item) => (
                     <div key={item.name} className="px-4 py-5 sm:p-6">
@@ -156,14 +148,10 @@ const Dashboard: NextPage = () => {
                             </th>
                           </tr>
                         </thead>
-                        {/* // ! step 4 End */}
-
                         <tbody className="divide-y divide-gray-200 bg-white">
                           {data?.videos.map((video) => (
                             <tr key={video.id}>
-                              {/* // ! step 5 Start */}
                               <PublishedButton video={video} />
-                              {/* // ! step 5 End */}
                               <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                 <div className="flex">
                                   <div className="h-16 w-16 flex-shrink-0">
@@ -189,14 +177,11 @@ const Dashboard: NextPage = () => {
                               </td>
                               <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-600">
                                 <div className="flex flex-row gap-2">
-                                  {/* // ! step 6 Start */}
                                   <DeleteButton
                                     videoId={video.id}
                                     refetch={refetch}
                                   />
-                                  {/* // ! step 6 End */}
 
-                                  {/* // ! step 7 Start */}
                                   <EditButton
                                     video={{
                                       id: video?.id || "",
@@ -206,7 +191,6 @@ const Dashboard: NextPage = () => {
                                     }}
                                     refetch={refetch}
                                   />
-                                  {/* // ! step 7 End */}
                                 </div>
                               </td>
                             </tr>
@@ -223,9 +207,6 @@ const Dashboard: NextPage = () => {
       </Layout>
     </>
   );
-  {
-    /* // ! step 4 End */
-  }
 };
 
 export default Dashboard;
